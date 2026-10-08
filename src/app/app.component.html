@@ -1,0 +1,847 @@
+<!-- ==========================================================================
+     FOLIUM — BIOPHILIC BOTANICAL SHOP (ANGULAR + TYPESCRIPT)
+     Clean, Crisp Vertical Scroll Showcase (Zero Blur, No Security/Tokens)
+     ========================================================================== -->
+
+<div class="folium-app-wrapper">
+
+  <!-- ================= CRISP SOLID NAVBAR ================= -->
+  <header class="clean-navbar" id="mainHeader">
+    <div class="nav-left">
+      <a href="#hero" class="brand-logo" (click)="scrollToSection('hero'); $event.preventDefault()">
+        <svg class="logo-leaf" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M4 24C4 24 6 12 16 6C20 3.6 23.5 4.5 24 5C24.5 5.5 25.4 9 23 13C17 23 5 25 4 24Z" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M4 24C9 19 14 15 22 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          <circle cx="15.5" cy="8.5" r="1.5" fill="var(--chartreuse)"/>
+        </svg>
+        <div class="brand-text-group">
+          <span class="brand-name">FOLIUM</span>
+          <span class="brand-edition">BOTANICAL SHOP &amp; HERBARIUM</span>
+        </div>
+      </a>
+    </div>
+
+    <nav class="nav-links">
+      <a href="#shop" class="nav-link" (click)="scrollToSection('shop'); $event.preventDefault()">
+        <span>Living Flora</span>
+        <span class="link-count">({{ shopService.filteredPlants().length }})</span>
+      </a>
+      <a href="#upload" class="nav-link" (click)="scrollToSection('upload'); $event.preventDefault()">
+        <span>Specimen Intake</span>
+      </a>
+      <a href="#care" class="nav-link" (click)="scrollToSection('care'); $event.preventDefault()">
+        <span>Care Methodology</span>
+      </a>
+    </nav>
+
+    <div class="nav-right">
+      <!-- Search Input in Header -->
+      <div class="search-box">
+        <svg class="search-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor">
+          <circle cx="7" cy="7" r="5" stroke-width="1.5"/>
+          <path d="M11 11L14.5 14.5" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        <input 
+          type="text" 
+          placeholder="Search plants..." 
+          [ngModel]="shopService.searchQuery()" 
+          (ngModelChange)="shopService.setSearchQuery($event)"
+          class="search-input"
+        >
+        @if (shopService.searchQuery()) {
+          <button class="clear-search-btn" (click)="shopService.setSearchQuery('')">&times;</button>
+        }
+      </div>
+
+      <!-- Cart Button with Counter Badge -->
+      <button class="cart-trigger-btn" (click)="shopService.toggleCart(true)" title="Open Shopping Cart">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M6 2L3 6V20C3 20.5304 3.21071 21.0391 3.58579 21.4142C3.96086 21.7893 4.46957 22 5 22H19C19.5304 22 20.0391 21.7893 20.4142 21.4142C20.7893 21.0391 21 20.5304 21 20V6L18 2H6Z" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M3 6H21" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M16 10C16 11.0609 15.5786 12.0783 14.8284 12.8284C14.0783 13.5786 13.0609 14 12 14C10.9391 14 9.92172 13.5786 9.17157 12.8284C8.42143 12.0783 8 11.0609 8 10" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span class="cart-label">Cart</span>
+        <span class="cart-badge" [class.has-items]="shopService.cartCount() > 0">
+          {{ shopService.cartCount() }}
+        </span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ================= SECTION 1: HERO SECTION ================= -->
+  <section class="section-hero" id="hero">
+    <div class="container hero-container">
+      
+      <!-- Left Column: Editorial Copy -->
+      <div class="hero-content">
+        <div class="editorial-meta-tag">
+          <span class="status-indicator"></span>
+          <span class="meta-label">NEW STANDARD BIOPHILIC MODERNISM // 2026</span>
+        </div>
+
+        <h1 class="hero-headline">
+          The Living Architecture of Botany.
+        </h1>
+
+        <p class="hero-description">
+          Folium curates rare, acclimatized indoor flora potted in European hand-thrown terracotta. Blending sensory botanical aesthetics with high-fidelity cellular diagnostics and cold-pack climate delivery.
+        </p>
+
+        <div class="hero-actions">
+          <button class="btn-primary" (click)="scrollToSection('shop')">
+            <span>Explore Botanical Shop</span>
+            <svg class="btn-arrow" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M4 10H16M11 5L16 10L11 15" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+          
+          <button class="btn-secondary" (click)="scrollToSection('upload')">
+            <span>Diagnose Specimen</span>
+          </button>
+        </div>
+
+        <!-- Specimen Index Badges -->
+        <div class="hero-specimen-badges">
+          <div class="specimen-pill" (click)="scrollToSection('shop')">
+            <span class="pill-dot"></span>
+            <div class="pill-details">
+              <span class="specimen-name">Sansevieria trifasciata</span>
+              <span class="specimen-loc">Structural Snake Plant • Oxygen Purity 98.4% • In Stock ($58)</span>
+            </div>
+          </div>
+          <div class="specimen-pill" (click)="scrollToSection('shop')">
+            <span class="pill-dot pill-terracotta"></span>
+            <div class="pill-details">
+              <span class="specimen-name">Epipremnum aureum</span>
+              <span class="specimen-loc">Trailing Golden Pothos • Terracotta Vessel • In Stock ($42)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Trust Badges Bar -->
+        <div class="hero-trust-bar">
+          <div class="trust-item">
+            <span class="trust-icon">🪴</span>
+            <span class="trust-text">Hand-Thrown Terracotta</span>
+          </div>
+          <div class="trust-divider"></div>
+          <div class="trust-item">
+            <span class="trust-icon">📦</span>
+            <span class="trust-text">Cold-Pack Insulated Delivery</span>
+          </div>
+          <div class="trust-divider"></div>
+          <div class="trust-item">
+            <span class="trust-icon">🌱</span>
+            <span class="trust-text">30-Day Living Guarantee</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Editorial Photography (Snake Plant & Pothos) -->
+      <div class="hero-media">
+        <div class="photo-card editorial-shadow">
+          <img src="assets/hero_plants.jpg" alt="Structural Snake Plant and trailing Pothos on oak credenza in terracotta pot" class="editorial-img">
+          
+          <div class="photo-solid-overlay">
+            <div class="overlay-row">
+              <div class="camera-spec">
+                <span class="focal">50mm ƒ/1.4 Editorial Study</span>
+                <span class="lighting">Natural Morning Light • Raw Terracotta &amp; Oak</span>
+              </div>
+              <div class="provenance-tag">PL-01 // SHOP VIGNETTE</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Floating Biophilic Micro-card -->
+        <div class="floating-data-card">
+          <div class="data-header">
+            <span class="data-icon">🌿</span>
+            <span class="data-title">Biophilic Index</span>
+            <span class="data-pill">Optimal</span>
+          </div>
+          <div class="data-bar-wrap">
+            <div class="data-bar-fill" style="width: 94%;"></div>
+          </div>
+          <div class="data-footer">
+            <span>Stomatal Conductance: High</span>
+            <span class="data-val">94.2%</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= SECTION 2: PLANT SHOP SHOWCASE ================= -->
+  <section class="section-shop" id="shop">
+    <div class="container">
+      
+      <!-- Section Header -->
+      <div class="shop-header">
+        <div class="shop-title-col">
+          <div class="editorial-meta-tag">
+            <span class="status-indicator"></span>
+            <span class="meta-label">BOTANICAL CATALOG // LIVING SPECIMENS</span>
+          </div>
+          <h2 class="section-headline">Curated Living Plants</h2>
+          <p class="section-subhead">
+            Acclimatized indoor plants in hand-thrown terracotta planters. Cultivated with specialized organic substrate blends and cold-pack climate protection.
+          </p>
+        </div>
+
+        <!-- Filter & Sort Controls Bar -->
+        <div class="shop-controls-bar">
+          <!-- Category Tabs -->
+          <div class="category-tabs">
+            @for (cat of categories; track cat.id) {
+              <button 
+                class="category-pill" 
+                [class.active]="shopService.activeCategory() === cat.id"
+                (click)="shopService.setCategory(cat.id)"
+              >
+                {{ cat.label }}
+              </button>
+            }
+          </div>
+
+          <!-- Sort Select -->
+          <div class="sort-wrapper">
+            <label for="sortSelect" class="sort-label">Sort by:</label>
+            <select 
+              id="sortSelect"
+              class="sort-select" 
+              [ngModel]="shopService.sortBy()" 
+              (ngModelChange)="shopService.setSortBy($event)"
+            >
+              <option value="curated">Curator’s Choice</option>
+              <option value="price-low">Price: Low to High</option>
+              <option value="price-high">Price: High to Low</option>
+              <option value="rating">Top Customer Rated</option>
+              <option value="rarity">Rarity Level</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Products Grid -->
+      <div class="plants-grid">
+        @for (plant of shopService.filteredPlants(); track plant.id) {
+          <article class="plant-card">
+            
+            <!-- Card Media -->
+            <div class="plant-media-wrap" (click)="handleOpenPlantModal(plant)">
+              <img [src]="plant.image" [alt]="plant.name" class="plant-img" loading="lazy">
+              
+              <!-- Floating Rarity Badge -->
+              @if (plant.badge) {
+                <span class="plant-badge" [class.badge-rare]="plant.category === 'rare'">
+                  {{ plant.badge }}
+                </span>
+              }
+
+              <!-- Stock Tag -->
+              <span class="stock-chip" [class.low-stock]="plant.stockStatus === 'low-stock'">
+                @if (plant.stockStatus === 'in-stock') { In Stock ({{ plant.stockCount }}) }
+                @else if (plant.stockStatus === 'low-stock') { Only {{ plant.stockCount }} Left }
+                @else { Rare Batch }
+              </span>
+
+              <!-- Quick View Overlay on Hover -->
+              <div class="media-hover-overlay">
+                <button class="btn-inspect-quick" (click)="handleOpenPlantModal(plant); $event.stopPropagation()">
+                  <svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="8" cy="8" r="6"/>
+                    <path d="M8 5V11M5 8H11"/>
+                  </svg>
+                  <span>Botanical Dossier</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Card Body -->
+            <div class="plant-card-body">
+              <div class="plant-header-row">
+                <div>
+                  <h3 class="plant-name" (click)="handleOpenPlantModal(plant)">{{ plant.name }}</h3>
+                  <p class="plant-binomial">{{ plant.binomial }}</p>
+                </div>
+                <div class="plant-rating">
+                  <span class="star-icon">★</span>
+                  <span class="rating-val">{{ plant.rating }}</span>
+                </div>
+              </div>
+
+              <!-- Quick Specs -->
+              <div class="plant-specs-row">
+                <span class="spec-tag">{{ plant.potSize }}</span>
+                <span class="spec-tag">{{ plant.humidity }}</span>
+              </div>
+
+              <p class="plant-short-desc">
+                {{ plant.description }}
+              </p>
+
+              <!-- Card Footer with Price & Add to Cart -->
+              <div class="plant-footer-row">
+                <div class="plant-pricing">
+                  <span class="current-price">${{ plant.price }}.00</span>
+                  @if (plant.originalPrice) {
+                    <span class="original-price">${{ plant.originalPrice }}.00</span>
+                  }
+                </div>
+
+                <div class="card-action-btns">
+                  <button 
+                    class="btn-add-cart" 
+                    (click)="handleAddToCart(plant)"
+                    title="Add {{ plant.name }} to Cart"
+                  >
+                    <svg viewBox="0 0 20 20" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M10 4V16M4 10H16" stroke-linecap="round"/>
+                    </svg>
+                    <span>Add to Cart</span>
+                  </button>
+                </div>
+              </div>
+
+            </div>
+
+          </article>
+        } @empty {
+          <div class="no-results-box">
+            <span class="no-results-icon">🌿</span>
+            <h3>No living specimens found</h3>
+            <p>Try searching for different keywords or reset your active filters.</p>
+            <button class="btn-secondary" (click)="shopService.setSearchQuery(''); shopService.setCategory('all')">
+              Reset Filters
+            </button>
+          </div>
+        }
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= SECTION 3: DIRECT IMAGE UPLOAD & DIAGNOSIS ================= -->
+  <section class="section-upload" id="upload">
+    <div class="container">
+      
+      <div class="section-title-wrap">
+        <div class="editorial-meta-tag">
+          <span class="status-indicator"></span>
+          <span class="meta-label">MODULE 02 // CELLULAR DIAGNOSTICS &amp; DIRECT INTAKE</span>
+        </div>
+        <h2 class="section-headline">Direct Image Upload</h2>
+        <p class="section-subhead">
+          Drag-and-drop structural botanical photography for instantaneous cellular morphology, fenestration indexing, and chlorophyll health diagnostics.
+        </p>
+      </div>
+
+      <div class="upload-workbench-layout">
+        
+        <!-- Left: Drop Zone Card -->
+        <div class="dropzone-outer">
+          
+          <div 
+            class="dropzone-card" 
+            [class.drag-over]="isDragging()"
+            (dragover)="onDragOver($event)"
+            (dragleave)="onDragLeave($event)"
+            (drop)="onFileDrop($event)"
+            (click)="triggerBrowse(fileInputRef)"
+            tabindex="0"
+          >
+            <!-- Hidden File Input -->
+            <input 
+              #fileInputRef
+              type="file" 
+              accept="image/*" 
+              class="file-input-hidden" 
+              (change)="onFileInputChange($event)"
+            >
+
+            <!-- Initial State (Empty dropzone) -->
+            @if (!uploadedImageSrc()) {
+              <div class="dropzone-content-initial">
+                
+                <div class="upload-icon-container">
+                  <svg class="upload-vector-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor">
+                    <path d="M8 32V38C8 39.1 8.9 40 10 40H38C39.1 40 40 39.1 40 38V32" stroke-width="2.5" stroke-linecap="round"/>
+                    <path d="M24 10V30M24 10L16 18M24 10L32 18" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <circle cx="24" cy="24" r="21" stroke="currentColor" stroke-width="1" stroke-dasharray="3 3" opacity="0.3"/>
+                  </svg>
+                </div>
+
+                <div class="drop-text-group">
+                  <h3 class="drop-title">Drag &amp; Drop Botanical Photograph</h3>
+                  <p class="drop-hint">Drop your high-resolution specimen capture here, or click to browse</p>
+                </div>
+
+                <!-- "Browse Files" button with micro-animation loading ring -->
+                <div class="btn-browse-wrapper">
+                  <button 
+                    type="button" 
+                    class="btn-browse" 
+                    [class.is-loading]="isBrowseLoading()"
+                    (click)="triggerBrowse(fileInputRef); $event.stopPropagation()"
+                  >
+                    <!-- SVG Micro-Animation Loading Ring -->
+                    <svg class="micro-ring" viewBox="0 0 28 28" aria-hidden="true">
+                      <circle class="ring-bg" cx="14" cy="14" r="11" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="2.5"/>
+                      <circle class="ring-progress" cx="14" cy="14" r="11" fill="none" stroke="var(--chartreuse)" stroke-width="2.5" stroke-dasharray="69.1" [style.stroke-dashoffset]="isBrowseLoading() ? '10' : '69.1'"/>
+                    </svg>
+                    <span class="btn-browse-text">
+                      {{ isBrowseLoading() ? 'Analyzing...' : 'Browse Files' }}
+                    </span>
+                  </button>
+                </div>
+
+                <div class="dropzone-spec-chips">
+                  <span class="format-chip">RAW / DNG</span>
+                  <span class="format-chip">TIFF / JPEG</span>
+                  <span class="format-chip">PNG 64MB MAX</span>
+                  <span class="format-chip accent-chip">8K Telemetry</span>
+                </div>
+
+              </div>
+            }
+
+            <!-- Active Scan / Diagnostic Result State -->
+            @if (uploadedImageSrc()) {
+              <div class="dropzone-analysis-state">
+                <div class="preview-container">
+                  <img [src]="uploadedImageSrc()" alt="Specimen Preview" class="preview-img">
+                  <div class="scan-laser-line"></div>
+                </div>
+
+                <div class="analysis-details" (click)="$event.stopPropagation()">
+                  <div class="analysis-header">
+                    <span class="analysis-tag">CELLULAR SCAN COMPLETE</span>
+                    <span class="analysis-time">14ms latency</span>
+                  </div>
+                  
+                  <h4 class="analysis-species">{{ diagnosedSpecies() }}</h4>
+                  
+                  <div class="metric-gauges">
+                    <div class="gauge-box">
+                      <span class="gauge-lbl">Fenestration Health</span>
+                      <div class="gauge-bar">
+                        <div class="gauge-fill" [style.width.%]="fenestrationHealth()" style="background: var(--chartreuse);"></div>
+                      </div>
+                      <span class="gauge-val">{{ fenestrationHealth() }}%</span>
+                    </div>
+
+                    <div class="gauge-box">
+                      <span class="gauge-lbl">Hydration Index</span>
+                      <div class="gauge-bar">
+                        <div class="gauge-fill" [style.width.%]="hydrationIndex()" style="background: var(--soft-coral);"></div>
+                      </div>
+                      <span class="gauge-val">{{ hydrationIndex() }}%</span>
+                    </div>
+                  </div>
+
+                  <div class="analysis-recommendation">
+                    <span class="rec-label">DIAGNOSTIC ADVICE:</span>
+                    <p class="rec-text">Healthy stomatal aperture detected. Maintain 1,800 Lux indirect morning light. Substrate aeration is optimal.</p>
+                  </div>
+
+                  <div class="analysis-actions">
+                    <button class="btn-chip" (click)="resetUpload()">Upload Another</button>
+                    <button class="btn-chip accent" (click)="addDiagnosedPlantToShop()">Add Match to Cart</button>
+                  </div>
+                </div>
+              </div>
+            }
+
+            <!-- Drag Active Overlay -->
+            @if (isDragging()) {
+              <div class="dropzone-active-overlay">
+                <div class="active-pulse-circle"></div>
+                <span class="active-label">RELEASE SPECIMEN TO ANALYZE</span>
+              </div>
+            }
+
+          </div>
+
+          <div class="spec-note-row">
+            <span>Border Interaction: Subtle dashed Oat/Matcha transitions to solid <code>#DFFF00</code> on hover/drag.</span>
+          </div>
+        </div>
+
+        <!-- Right: Sample Specimen Quick Triggers -->
+        <div class="upload-aux-panel">
+          <div class="aux-card">
+            <div class="aux-title-row">
+              <span class="aux-icon">🔬</span>
+              <span class="aux-title">Instant Sample Diagnostics</span>
+            </div>
+            <p class="aux-desc">Click any authentic curated specimen photograph to simulate the real-time intake workflow:</p>
+            
+            <div class="sample-specimen-list">
+              <button class="sample-item-btn" (click)="triggerSampleScan('assets/monstera_deliciosa.jpg', 'Monstera Deliciosa (Liebm.)')">
+                <img src="assets/monstera_deliciosa.jpg" alt="Monstera thumbnail" class="sample-thumb">
+                <div class="sample-info">
+                  <span class="sample-title">Monstera Deliciosa</span>
+                  <span class="sample-sub">Mature fenestrated leaf • Araceae</span>
+                </div>
+                <span class="sample-trigger-arrow">→</span>
+              </button>
+
+              <button class="sample-item-btn" (click)="triggerSampleScan('assets/rare_alocasia.jpg', 'Alocasia Frydek Green Velvet')">
+                <img src="assets/rare_alocasia.jpg" alt="Alocasia thumbnail" class="sample-thumb">
+                <div class="sample-info">
+                  <span class="sample-title">Alocasia Frydek</span>
+                  <span class="sample-sub">Velvet texture &amp; pale veins</span>
+                </div>
+                <span class="sample-trigger-arrow">→</span>
+              </button>
+
+              <button class="sample-item-btn" (click)="triggerSampleScan('assets/anthurium_crystallinum.jpg', 'Anthurium Crystallinum')">
+                <img src="assets/anthurium_crystallinum.jpg" alt="Anthurium thumbnail" class="sample-thumb">
+                <div class="sample-info">
+                  <span class="sample-title">Anthurium Crystallinum</span>
+                  <span class="sample-sub">Silver crystal venation</span>
+                </div>
+                <span class="sample-trigger-arrow">→</span>
+              </button>
+            </div>
+
+            <div class="design-note-card">
+              <div class="note-pill">MICRO-INTERACTION SPEC</div>
+              <p>Hover triggers transition from subtle dashed outline to solid <code>#DFFF00</code> with a 0.2s ease. Loading button features synchronized SVG stroke-dasharray animation.</p>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= SECTION 4: BOTANICAL CARE GUIDE ================= -->
+  <section class="section-care" id="care">
+    <div class="container">
+      <div class="care-header">
+        <div class="editorial-meta-tag">
+          <span class="status-indicator"></span>
+          <span class="meta-label">BOTANICAL PHYSIOLOGY // CARE METHODOLOGY</span>
+        </div>
+        <h2 class="section-headline">The Science of Living Flora</h2>
+        <p class="section-subhead">
+          Indoor plant care decoded into 4 empirical environmental pillars to keep your living sculptures thriving.
+        </p>
+      </div>
+
+      <div class="care-pillars-grid">
+        <div class="care-pillar-card">
+          <span class="pillar-num">01</span>
+          <h4 class="pillar-title">Photometric Lux</h4>
+          <p class="pillar-desc">
+            Place plants in diffuse indirect light (1,200 - 2,500 Lux). Avoid harsh midday glass magnification while preserving photosynthesis.
+          </p>
+        </div>
+
+        <div class="care-pillar-card">
+          <span class="pillar-num">02</span>
+          <h4 class="pillar-title">Substrate Aeration</h4>
+          <p class="pillar-desc">
+            All Folium plants are potted in chunky aroid or succulent mediums with pine bark, pumice, and charcoal to prevent anaerobic root compaction.
+          </p>
+        </div>
+
+        <div class="care-pillar-card">
+          <span class="pillar-num">03</span>
+          <h4 class="pillar-title">Terracotta Porosity</h4>
+          <p class="pillar-desc">
+            Our hand-thrown raw terracotta breathes naturally, evaporating excess moisture through vessel walls and regulating rhizosphere temperature.
+          </p>
+        </div>
+
+        <div class="care-pillar-card">
+          <span class="pillar-num">04</span>
+          <h4 class="pillar-title">Sensory Hydration</h4>
+          <p class="pillar-desc">
+            Water thoroughly only when top 50% substrate is dry. Always discard drainage tray runoff within 15 minutes to preserve root vigor.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="app-footer">
+    <div class="container footer-container">
+      <div class="footer-col-brand">
+        <div class="brand-logo footer-logo">
+          <svg class="logo-leaf" viewBox="0 0 28 28" fill="none">
+            <path d="M4 24C4 24 6 12 16 6C20 3.6 23.5 4.5 24 5C24.5 5.5 25.4 9 23 13C17 23 5 25 4 24Z" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M4 24C9 19 14 15 22 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            <circle cx="15.5" cy="8.5" r="1.5" fill="var(--chartreuse)"/>
+          </svg>
+          <span class="brand-name">FOLIUM</span>
+        </div>
+        <p class="footer-mission">
+          Boutique botanical shop and living specimen archive for architectural spaces. Curated under New Standard Biophilic Modernism principles.
+        </p>
+      </div>
+
+      <div class="footer-col-links">
+        <h5 class="footer-heading">Botanical Shop</h5>
+        <ul>
+          <li><a (click)="shopService.setCategory('rare'); scrollToSection('shop')">Rare Cultivars</a></li>
+          <li><a (click)="shopService.setCategory('aroid'); scrollToSection('shop')">Monstera &amp; Aroids</a></li>
+          <li><a (click)="shopService.setCategory('architectural'); scrollToSection('shop')">Snake Plants &amp; Trees</a></li>
+          <li><a (click)="shopService.setCategory('pet-friendly'); scrollToSection('shop')">Pet-Safe Houseplants</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col-links">
+        <h5 class="footer-heading">Intake &amp; Science</h5>
+        <ul>
+          <li><a (click)="scrollToSection('upload')">Direct Image Upload</a></li>
+          <li><a (click)="scrollToSection('care')">Acclimatization Guide</a></li>
+          <li><a (click)="scrollToSection('shop')">All Listed Flora</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col-newsletter">
+        <h5 class="footer-heading">Botanical Dispatch</h5>
+        <p class="newsletter-sub">Receive notifications when rare harvests and European terracotta vessels arrive.</p>
+        <div class="newsletter-input-group">
+          <input type="email" placeholder="curator@folium.space" class="newsletter-input">
+          <button class="btn-subscribe" (click)="showToast('✓ Subscribed to Folium Botanical Dispatch')">Join</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="container footer-bottom-strip">
+      <p>&copy; 2026 FOLIUM BOTANICAL SHOP. ALL RIGHTS RESERVED. ANGULAR + TYPESCRIPT.</p>
+      <div class="bottom-links">
+        <span class="footer-tag">Living Delivery Guarantee</span>
+        <span class="footer-tag">Zero Plastic Packaging</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ================= SLIDE-OUT CART DRAWER ================= -->
+  <aside class="cart-drawer-backdrop" [class.is-open]="shopService.isCartOpen()" (click)="shopService.toggleCart(false)">
+    <div class="cart-drawer-panel" (click)="$event.stopPropagation()">
+      
+      <!-- Drawer Header -->
+      <div class="cart-drawer-header">
+        <div class="cart-title-wrap">
+          <h3 class="cart-title">Your Living Cart</h3>
+          <span class="cart-item-count">({{ shopService.cartCount() }} specimens)</span>
+        </div>
+        <button class="cart-close-btn" (click)="shopService.toggleCart(false)">&times;</button>
+      </div>
+
+      <!-- Free Shipping Banner -->
+      <div class="free-shipping-progress">
+        @if (shopService.isShippingFree()) {
+          <div class="shipping-status free">
+            <span>🌿</span>
+            <span>You've unlocked <strong>Complimentary Climate-Insulated Shipping</strong>!</span>
+          </div>
+        } @else {
+          <div class="shipping-status">
+            <span>Add <strong>${{ 75 - shopService.cartSubtotal() }}.00</strong> more for Free Shipping</span>
+          </div>
+          <div class="shipping-bar-track">
+            <div class="shipping-bar-fill" [style.width.%]="(shopService.cartSubtotal() / 75) * 100"></div>
+          </div>
+        }
+      </div>
+
+      <!-- Cart Items List -->
+      <div class="cart-items-list">
+        @for (item of shopService.cartItems(); track item.plant.id + item.selectedPotSize; let idx = $index) {
+          <div class="cart-item-card">
+            <img [src]="item.plant.image" [alt]="item.plant.name" class="cart-item-thumb">
+            
+            <div class="cart-item-details">
+              <div class="item-title-row">
+                <h4 class="cart-item-name">{{ item.plant.name }}</h4>
+                <button class="cart-item-del-btn" (click)="shopService.removeFromCart(idx)" title="Remove item">&times;</button>
+              </div>
+              
+              <span class="cart-item-pot">{{ item.selectedPotSize }}</span>
+              
+              <div class="cart-item-bottom">
+                <div class="quantity-controller">
+                  <button class="qty-btn" (click)="shopService.updateQuantity(idx, -1)">-</button>
+                  <span class="qty-val">{{ item.quantity }}</span>
+                  <button class="qty-btn" (click)="shopService.updateQuantity(idx, 1)">+</button>
+                </div>
+                <span class="cart-item-price">${{ item.plant.price * item.quantity }}.00</span>
+              </div>
+            </div>
+          </div>
+        } @empty {
+          <div class="cart-empty-state">
+            <span class="empty-icon">🪴</span>
+            <p class="empty-title">Your cart is currently empty</p>
+            <p class="empty-sub">Explore our curated living specimens to bring biophilic elegance into your sanctuary.</p>
+            <button class="btn-primary" (click)="shopService.toggleCart(false); scrollToSection('shop')">
+              Browse Living Flora
+            </button>
+          </div>
+        }
+      </div>
+
+      <!-- Drawer Footer with Subtotal and Checkout -->
+      @if (shopService.cartCount() > 0) {
+        <div class="cart-drawer-footer">
+          <div class="subtotal-row">
+            <span class="subtotal-label">Subtotal</span>
+            <span class="subtotal-val">${{ shopService.cartSubtotal() }}.00</span>
+          </div>
+          
+          <div class="shipping-row">
+            <span class="shipping-lbl">Climate Insulated Packaging</span>
+            <span class="shipping-val">{{ shopService.isShippingFree() ? 'FREE' : '$12.00' }}</span>
+          </div>
+
+          <div class="checkout-actions">
+            <button class="btn-checkout" (click)="proceedToCheckout()">
+              <span>Proceed to Checkout</span>
+              <span class="checkout-total">${{ shopService.cartSubtotal() + (shopService.isShippingFree() ? 0 : 12) }}.00</span>
+            </button>
+          </div>
+
+          <div class="cart-security-note">
+            <span>🌿 30-Day Living Guarantee • Direct Greenhouse Delivery</span>
+          </div>
+        </div>
+      }
+
+    </div>
+  </aside>
+
+  <!-- ================= SPECIMEN DETAIL LIGHTBOX MODAL ================= -->
+  @if (shopService.selectedPlantForModal(); as plant) {
+    <aside class="modal-backdrop is-open" (click)="shopService.closePlantModal()">
+      <div class="modal-card specimen-modal-card" (click)="$event.stopPropagation()">
+        
+        <div class="modal-header">
+          <div class="modal-title-group">
+            <span class="modal-tag">BOTANICAL SPECIMEN DOSSIER</span>
+            <h3 class="modal-title">{{ plant.name }}</h3>
+          </div>
+          <button class="modal-close-btn" (click)="shopService.closePlantModal()">&times;</button>
+        </div>
+
+        <div class="specimen-modal-body">
+          <div class="modal-img-col">
+            <img [src]="plant.image" [alt]="plant.name" class="specimen-modal-preview">
+            @if (plant.badge) {
+              <div class="modal-badge-float">{{ plant.badge }}</div>
+            }
+          </div>
+
+          <div class="modal-data-col">
+            <p class="modal-binomial">{{ plant.binomial }}</p>
+            <p class="specimen-modal-desc">{{ plant.description }}</p>
+
+            <!-- Care Matrix -->
+            <div class="specimen-care-grid">
+              <div class="care-metric">
+                <span class="care-icon">☀️</span>
+                <span class="care-label">LIGHTING</span>
+                <span class="care-val">{{ plant.lightRequirement }}</span>
+              </div>
+              <div class="care-metric">
+                <span class="care-icon">💧</span>
+                <span class="care-label">WATERING</span>
+                <span class="care-val">{{ plant.wateringSchedule }}</span>
+              </div>
+              <div class="care-metric">
+                <span class="care-icon">🪴</span>
+                <span class="care-label">SUBSTRATE</span>
+                <span class="care-val">{{ plant.substrate }}</span>
+              </div>
+              <div class="care-metric">
+                <span class="care-icon">💨</span>
+                <span class="care-label">HUMIDITY</span>
+                <span class="care-val">{{ plant.humidity }}</span>
+              </div>
+            </div>
+
+            <!-- Pot Size Selector -->
+            <div class="pot-select-group">
+              <label class="pot-label">Select Planter Vessel:</label>
+              <div class="pot-chips-row">
+                @for (pot of potOptions; track pot) {
+                  <button 
+                    type="button"
+                    class="pot-chip" 
+                    [class.active]="selectedPotSizeInModal() === pot"
+                    (click)="selectedPotSizeInModal.set(pot)"
+                  >
+                    {{ pot }}
+                  </button>
+                }
+              </div>
+            </div>
+
+            <!-- Modal Add to Cart Action -->
+            <div class="modal-action-row">
+              <div class="modal-price-box">
+                <span class="modal-price">${{ plant.price }}.00</span>
+                <span class="modal-stock">In Stock &amp; Acclimatized</span>
+              </div>
+
+              <button class="btn-primary" (click)="handleModalAddToCart()">
+                <span>Add to Living Collection</span>
+              </button>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </aside>
+  }
+
+  <!-- ================= CHECKOUT SUCCESS MODAL ================= -->
+  @if (isCheckoutSuccessModalOpen()) {
+    <aside class="modal-backdrop is-open" (click)="closeCheckoutSuccess()">
+      <div class="modal-card checkout-modal-card" (click)="$event.stopPropagation()">
+        <div class="checkout-success-icon">🌱</div>
+        <h3 class="checkout-success-title">Order Confirmed with Care</h3>
+        <p class="checkout-success-desc">
+          Thank you for cultivating your living sanctuary with Folium. Your specimens are being gently prepared in thermal cold-pack insulation and European raw terracotta.
+        </p>
+        <div class="checkout-spec-box">
+          <div class="spec-row">
+            <span>Order Reference:</span>
+            <code>FOLIUM-ORDER-#8921</code>
+          </div>
+          <div class="spec-row">
+            <span>Guarantee:</span>
+            <span>30-Day Living Acclimatization Guarantee</span>
+          </div>
+        </div>
+        <button class="btn-primary" (click)="closeCheckoutSuccess()">
+          <span>Continue Exploring Flora</span>
+        </button>
+      </div>
+    </aside>
+  }
+
+  <!-- ================= TOAST NOTIFICATION ================= -->
+  <div class="toast-notification" [class.show]="isToastVisible()">
+    <span class="toast-dot"></span>
+    <span class="toast-message">{{ toastMessage() }}</span>
+  </div>
+
+  <!-- ================= FLOATING BACK TO TOP BUTTON ================= -->
+  <button class="floating-top-btn" (click)="scrollToSection('hero')" title="Scroll to Top">
+    <svg viewBox="0 0 20 20" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M10 16V4M4 10L10 4L16 10" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </button>
+
+</div>

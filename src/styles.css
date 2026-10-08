@@ -1,0 +1,128 @@
+/* ==========================================================================
+   FOLIUM — BIOPHILIC MODERNISM DESIGN SYSTEM (ANGULAR + TYPESCRIPT)
+   Color Palette:
+     - Soft Oat:            #F4F1EA (Base Canvas)
+     - Deep Matcha Green:   #2C3E2D (Headers, Surfaces, Primary Contrast)
+     - Warm Terracotta:     #C86B53 (Ceramic Earth, Plant Pot Accents)
+     - Electric Chartreuse: #DFFF00 (Micro-interactions, Active Rings, Hover states)
+     - Soft Coral:          #FF9E80 (Secondary Pulses, Rarity Badges)
+   ========================================================================== */
+
+:root {
+  /* Core Biophilic Modernism Palette */
+  --oat: #F4F1EA;
+  --oat-light: #FAF8F5;
+  --oat-dark: #EAE5D9;
+  --oat-border: rgba(44, 62, 45, 0.12);
+  --oat-border-dashed: rgba(44, 62, 45, 0.28);
+  
+  --matcha: #2C3E2D;
+  --matcha-deep: #1E2C1F;
+  --matcha-surface: rgba(44, 62, 45, 0.05);
+  --matcha-card: #243425;
+  --matcha-muted: #536754;
+  --matcha-text-light: #839785;
+  
+  --terracotta: #C86B53;
+  --terracotta-soft: rgba(200, 107, 83, 0.12);
+  --terracotta-border: rgba(200, 107, 83, 0.28);
+  --terracotta-dark: #A4503B;
+  
+  /* Micro-Interaction & State Accents Strictly For Hover / Loading */
+  --chartreuse: #DFFF00;
+  --chartreuse-glow: rgba(223, 255, 0, 0.35);
+  --chartreuse-subtle: rgba(223, 255, 0, 0.15);
+  
+  --soft-coral: #FF9E80;
+  --soft-coral-subtle: rgba(255, 158, 128, 0.16);
+
+  /* Typography */
+  --font-sans: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, monospace;
+  
+  /* Radius */
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+  --radius-pill: 9999px;
+
+  /* Solid Crisp Surfaces (Zero Blur) */
+  --surface-nav: #FFFFFF;
+  --surface-card: #FFFFFF;
+  --surface-border: rgba(44, 62, 45, 0.12);
+  --surface-shadow: 0 8px 24px -4px rgba(44, 62, 45, 0.08);
+  
+  /* Tactile Shadows */
+  --shadow-editorial: 0 24px 48px -12px rgba(44, 62, 45, 0.14), 0 4px 12px rgba(44, 62, 45, 0.04);
+  --shadow-card: 0 8px 24px -4px rgba(44, 62, 45, 0.06);
+  --shadow-hover: 0 20px 40px -6px rgba(44, 62, 45, 0.13);
+}
+
+/* Base Styles */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  height: 100%;
+}
+
+body {
+  min-height: 100%;
+  background-color: var(--oat);
+  color: var(--matcha);
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1.55;
+  letter-spacing: -0.012em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--oat-dark);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--matcha-muted);
+  border-radius: var(--radius-pill);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--matcha);
+}
+
+/* Selection */
+::selection {
+  background: var(--chartreuse);
+  color: var(--matcha-deep);
+}
+
+/* Helper Utilities */
+.container {
+  width: 100%;
+  max-width: 1360px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
